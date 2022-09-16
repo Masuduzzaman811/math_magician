@@ -1,32 +1,61 @@
 import React from 'react';
+import Buttons from './Buttons';
+import calculate from '../logic/calculate';
 
 class Calculator extends React.PureComponent {
-  render() {
-    return (
-      <div className="calc-container">
-        <div className="screen">0</div>
-        <div className="calc-btn grey">AC</div>
-        <div className="calc-btn grey">+/-</div>
-        <div className="calc-btn grey">%</div>
-        <div className="calc-btn orange">&divide;</div>
-        <div className="calc-btn grey">7</div>
-        <div className="calc-btn grey">8</div>
-        <div className="calc-btn grey">9</div>
-        <div className="calc-btn orange">&times;</div>
-        <div className="calc-btn grey">4</div>
-        <div className="calc-btn grey">5</div>
-        <div className="calc-btn grey">6</div>
-        <div className="calc-btn orange">-</div>
-        <div className="calc-btn grey">1</div>
-        <div className="calc-btn grey">2</div>
-        <div className="calc-btn grey">3</div>
-        <div className="calc-btn orange">+</div>
-        <div className="calc-btn zero grey">0</div>
-        <div className="calc-btn grey">.</div>
-        <div className="calc-btn orange">=</div>
-      </div>
-    );
+  constructor(props) {
+    super(props);
+    this.state = { total: 0, next: null, operation: null };
   }
+
+    componentDidMount = () => {
+      this.setState({
+        total: 0,
+        next: null,
+        operation: null,
+      });
+    }
+
+    render() {
+      const eventHandlerFunc = (e) => {
+        const calcObject = calculate(this.state, e.target.textContent);
+        this.setState(calcObject);
+      };
+
+      const { total, operation, next } = this.state;
+      const oprnd = operation === '%' ? 'mod' : operation;
+      let result = '';
+      if (total) {
+        result = `${total} ${oprnd || ''} ${next || ''}`;
+      } else if (next) {
+        result = `${next} ${oprnd || ''}`;
+      }
+      return (
+        <div className="calc-container">
+
+          <div className="screen">{result || 0 }</div>
+          <Buttons styles="calc-btn grey" eventHandlerFunc={(e) => eventHandlerFunc(e)} value="AC" />
+          <Buttons styles="calc-btn grey" eventHandlerFunc={(e) => eventHandlerFunc(e)} value="+/-" />
+          <Buttons styles="calc-btn grey" eventHandlerFunc={(e) => eventHandlerFunc(e)} value="%" />
+          <Buttons styles="calc-btn orange" eventHandlerFunc={(e) => eventHandlerFunc(e)} value="÷" />
+          <Buttons styles="calc-btn grey" eventHandlerFunc={(e) => eventHandlerFunc(e)} value="7" />
+          <Buttons styles="calc-btn grey" eventHandlerFunc={(e) => eventHandlerFunc(e)} value="8" />
+          <Buttons styles="calc-btn grey" eventHandlerFunc={(e) => eventHandlerFunc(e)} value="9" />
+          <Buttons styles="calc-btn orange" eventHandlerFunc={(e) => eventHandlerFunc(e)} value="x" />
+          <Buttons styles="calc-btn grey" eventHandlerFunc={(e) => eventHandlerFunc(e)} value="4" />
+          <Buttons styles="calc-btn grey" eventHandlerFunc={(e) => eventHandlerFunc(e)} value="5" />
+          <Buttons styles="calc-btn grey" eventHandlerFunc={(e) => eventHandlerFunc(e)} value="6" />
+          <Buttons styles="calc-btn orange" eventHandlerFunc={(e) => eventHandlerFunc(e)} value="-" />
+          <Buttons styles="calc-btn grey" eventHandlerFunc={(e) => eventHandlerFunc(e)} value="1" />
+          <Buttons styles="calc-btn grey" eventHandlerFunc={(e) => eventHandlerFunc(e)} value="2" />
+          <Buttons styles="calc-btn grey" eventHandlerFunc={(e) => eventHandlerFunc(e)} value="3" />
+          <Buttons styles="calc-btn orange" eventHandlerFunc={(e) => eventHandlerFunc(e)} value="+" />
+          <Buttons styles="calc-btn zero grey" eventHandlerFunc={(e) => eventHandlerFunc(e)} value="0" />
+          <Buttons styles="calc-btn grey" eventHandlerFunc={(e) => eventHandlerFunc(e)} value="." />
+          <Buttons styles="calc-btn orange" eventHandlerFunc={(e) => eventHandlerFunc(e)} value="=" />
+        </div>
+      );
+    }
 }
 
 export default Calculator;
