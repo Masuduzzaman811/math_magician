@@ -13,9 +13,9 @@
 - React library
 - NPM package manager
 
-## Live Demo (if available)
+## Live Demo
 
-[Will be available soon...](#)
+[Do some Calculation!](https://math-magician-with-react.netlify.app/)
 
 
 ## Getting Started
